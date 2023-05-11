@@ -47,6 +47,7 @@ function init() {
           "Delete a department",
           "Delete a role",
           "Delete an employee",
+          "Exit"
         ],
       },
     ])
@@ -94,6 +95,9 @@ function init() {
         case "Delete an employee":
           await deleteEmployee();
           break;
+        case "Exit":
+          console.log("Goodbye!");
+          process.exit();
       }
     })
     .then(async () => {
