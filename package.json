@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.16.4",
     "inquirer": "^8.2.5",
+    "inquirer-press-to-continue": "^1.1.4",
     "mysql2": "^3.3.0",
     "sequelize": "^6.31.1"
   }
