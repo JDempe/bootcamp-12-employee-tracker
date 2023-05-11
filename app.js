@@ -12,8 +12,10 @@ const {
   updateEmployeeManager,
   viewEmployeesByManager,
   viewEmployeesByDepartment,
-  deleteDepartment,
   viewDepartmentBudget,
+  deleteDepartment,
+  deleteRole,
+  deleteEmployee,
 } = require("./utils/queries");
 const app = express();
 
@@ -21,11 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 init();
-// Create Inquirer prompts for each of the actions possible:
-// View all departments, View all roles, View all employees
-// Add a department, Add a role, Add an employee
-// Update an employee role
 
+// Run the application with node app.js
 function init() {
   inquirer
     .prompt([
@@ -44,8 +43,10 @@ function init() {
           "Update an employee manager",
           "View employees by manager",
           "View employees by department",
-          "Delete a department",
           "View department budget",
+          "Delete a department",
+          "Delete a role",
+          "Delete an employee",
         ],
       },
     ])
@@ -81,11 +82,17 @@ function init() {
         case "View employees by department":
           await viewEmployeesByDepartment();
           break;
+        case "View department budget":
+          await viewDepartmentBudget();
+          break;
         case "Delete a department":
           await deleteDepartment();
           break;
-        case "View department budget":
-          await viewDepartmentBudget();
+        case "Delete a role":
+          await deleteRole();
+          break;
+        case "Delete an employee":
+          await deleteEmployee();
           break;
       }
     })

@@ -268,9 +268,55 @@ async function viewEmployeesByDepartment() {
         message: "What is the ID of the department you would like to view?",
       },
     ])
+    // Get roles for the department and then get employees for those roles
     .then((answers) => {
       connection.query(
-        "SELECT * FROM employee WHERE ?",
+        "SELECT * FROM role WHERE ?",
+        {
+          department_id: answers.department_id,
+        },
+        function (err, results) {
+          if (err) {
+            console.log(err);
+          }
+          // Get employees for the roles
+          connection.query(
+            "SELECT * FROM employee WHERE ?",
+            {
+              role_id: results[0].id,
+            },
+            function (err, results) {
+              if (err) {
+                console.log(err);
+              }
+              console.log("\n");
+              console.table(results);
+            }
+          );
+        }
+      );
+    });
+}
+
+// view the total budget of a department
+async function viewDepartmentBudget() {
+  await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "department_id",
+        message: "What is the ID of the department you would like to view?",
+        validator: function (value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        },
+      },
+    ])
+    .then((answers) => {
+      connection.query(
+        "SELECT * FROM role WHERE ?",
         {
           department_id: answers.department_id,
         },
@@ -280,6 +326,13 @@ async function viewEmployeesByDepartment() {
           }
           console.log("\n");
           console.table(results);
+
+          // total the salaries
+          let totalSalaries = 0;
+          for (let i = 0; i < results.length; i++) {
+            totalSalaries += parseInt(results[i].salary);
+          }
+          console.log("Total Salaries: " + totalSalaries);
         }
       );
     });
@@ -368,46 +421,6 @@ async function deleteEmployee() {
     });
 }
 
-// view the total budget of a department
-async function viewDepartmentBudget() {
-  await inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "department_id",
-        message: "What is the ID of the department you would like to view?",
-        validator: function (value) {
-            if (isNaN(value) === false) {
-               return true;
-            }
-            return false;
-         }
-      },
-    ])
-    .then((answers) => {
-      connection.query(
-        "SELECT * FROM role WHERE ?",
-        {
-          department_id: answers.department_id,
-        },
-        function (err, results) {
-          if (err) {
-            console.log(err);
-          }
-          console.log("\n");
-          console.table(results);
-
-          // total the salaries
-          let totalSalaries = 0;
-          for (let i = 0; i < results.length; i++) {
-            totalSalaries += parseInt(results[i].salary);
-          }
-          console.log("Total Salaries: " + totalSalaries);
-        }
-      );
-    });
-}
-
 // Export the functions
 module.exports = {
   viewAllDepartments,
@@ -420,6 +433,8 @@ module.exports = {
   updateEmployeeManager,
   viewEmployeesByManager,
   viewEmployeesByDepartment,
+  viewDepartmentBudget,  
   deleteDepartment,
-  viewDepartmentBudget,
+  deleteRole,
+  deleteEmployee,
 };
