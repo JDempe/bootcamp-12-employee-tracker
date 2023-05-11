@@ -76,8 +76,7 @@ The user can select an option by using the up and down arrow keys and pressing e
 
 The following is a video showing each of the options in the application:
 
-<p align="center"><video src="https://github.com/JDempe/bootcamp-12-employee-tracker/assets/123279032/53f2df89-bb7d-489e-afa9-c354f195f220" controls="controls" style="max-width: 730px;"></video><p>
-
+https://github.com/JDempe/bootcamp-12-employee-tracker/assets/123279032/0d443ea3-64ac-4123-8d59-206ec371c33f
 
 ## Credits
 ### Resources
